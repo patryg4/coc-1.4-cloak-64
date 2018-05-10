@@ -181,7 +181,7 @@ void CStats::Show()
     }
 
     CGameFont& F = *pFont;
-    float  f_base_size = 0.01f;
+    float  f_base_size = 0.02f;
     F.SetHeightI(f_base_size);
 
     if (vtune.enabled())
@@ -272,6 +272,7 @@ void CStats::Show()
         F.OutNext("  S_calc:    %2.2fms", RenderDUMP_Scalc.result);
         F.OutNext("  S_render:  %2.2fms, %d", RenderDUMP_Srender.result, RenderDUMP_Srender.count);
         F.OutSkip();
+        F.OutSet(350, 0);
         F.OutNext("*** SOUND:   %2.2fms", Sound.result);
         F.OutNext("  TGT/SIM/E: %d/%d/%d", snd_stat._rendered, snd_stat._simulated, snd_stat._events);
         F.OutNext("  HIT/MISS:  %d/%d", snd_stat._cache_hits, snd_stat._cache_misses);
@@ -322,13 +323,13 @@ void CStats::Show()
         //////////////////////////////////////////////////////////////////////////
         // Renderer specific
         F.SetHeightI(f_base_size);
-        F.OutSet(200, 0);
+        F.OutSet(700, 0);
         Render->Statistics(&F);
 
         //////////////////////////////////////////////////////////////////////////
         // Game specific
         F.SetHeightI(f_base_size);
-        F.OutSet(400, 0);
+        F.OutSet(1050, 0);
         g_pGamePersistent->Statistics(&F);
 
         //////////////////////////////////////////////////////////////////////////
@@ -463,7 +464,7 @@ void CStats::OnDeviceCreate()
 
     // if (!strstr(Core.Params, "-dedicated"))
 #ifndef DEDICATED_SERVER
-    pFont = xr_new<CGameFont>("stat_font", CGameFont::fsDeviceIndependent);
+    pFont = xr_new<CGameFont>("hud_font_medium", CGameFont::fsDeviceIndependent);
 #endif
 
     if (!pSettings->section_exist("evaluation")
