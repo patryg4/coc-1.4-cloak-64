@@ -292,6 +292,10 @@ public:
     virtual void ScreenshotAsyncBegin() = 0;
     virtual void ScreenshotAsyncEnd(CMemoryWriter& memory_writer) = 0;
 
+    // Particles
+    virtual void ExportParticles() {}
+    virtual void ImportParticles() {}
+
     // Render mode
     virtual void rmNear() = 0;
     virtual void rmFar() = 0;

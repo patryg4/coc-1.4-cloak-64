@@ -274,3 +274,69 @@ shared_str const& CPSLibrary::particles_group_id(CPGDef const& particles_group) 
 {
 	return	(particles_group.m_Name);
 }
+
+//------------------------------------------------------------------------------
+
+bool CPSLibrary::Save() {
+    string_path		fn;
+    FS.update_path(fn, _game_data_, "particles.xr");
+    Save(fn);
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool CPSLibrary::Save2() {
+    FS.dir_delete("$game_particles$", "", TRUE);
+    string_path				fn;
+    for (PS::PEDIt it = m_PEDs.begin(); it != m_PEDs.end(); ++it) {
+        PS::CPEDef*	pe = (*it);
+        FS.update_path(fn, "$game_particles$", pe->m_Name.c_str());
+        strcat(fn, ".pe");
+        CInifile 			ini(fn, FALSE, FALSE, FALSE);
+        pe->Save2(ini);
+        ini.save_as(fn);
+    }
+
+    for (PS::PGDIt g_it = m_PGDs.begin(); g_it != m_PGDs.end(); ++g_it) {
+        PS::CPGDef*	pg = (*g_it);
+        FS.update_path(fn, "$game_particles$", pg->m_Name.c_str());
+        strcat(fn, ".pg");
+        CInifile 			ini(fn, FALSE, FALSE, FALSE);
+        pg->Save2(ini);
+        ini.save_as(fn);
+    }
+    return true;
+}
+
+
+bool CPSLibrary::Save(const char* nm) {
+    CMemoryWriter F;
+
+    F.open_chunk(PS_CHUNK_VERSION);
+    F.w_u16(PS_VERSION);
+    F.close_chunk();
+
+    F.open_chunk(PS_CHUNK_SECONDGEN);
+    u32 chunk_id = 0;
+    for (PS::PEDIt it = m_PEDs.begin(); it != m_PEDs.end(); ++it, ++chunk_id) {
+        F.open_chunk(chunk_id);
+        (*it)->Save(F);
+        F.close_chunk();
+    }
+    F.close_chunk();
+
+
+    F.open_chunk(PS_CHUNK_THIRDGEN);
+    chunk_id = 0;
+    for (PS::PGDIt g_it = m_PGDs.begin(); g_it != m_PGDs.end(); ++g_it, ++chunk_id) {
+        F.open_chunk(chunk_id);
+        (*g_it)->Save(F);
+        F.close_chunk();
+    }
+    F.close_chunk();
+
+    return F.save_to(nm);
+}
+
+//------------------------------------------------------------------------------

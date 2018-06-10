@@ -391,6 +391,26 @@ public:
     }
 };
 //-----------------------------------------------------------------------
+class CCC_PART_Export : public IConsole_Command
+{
+public:
+    CCC_PART_Export(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = TRUE; };
+    virtual void Execute(LPCSTR args)
+    {
+        Msg("Exporting particles...");
+        Render->ExportParticles();
+    }
+};
+class CCC_PART_Import : public IConsole_Command
+{
+public:
+    CCC_PART_Import(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = TRUE; };
+    virtual void Execute(LPCSTR args)
+    {
+        Msg("Importing particles...");
+        Render->ImportParticles();
+    }
+};
 class CCC_VID_Reset : public IConsole_Command
 {
 public:
@@ -795,6 +815,8 @@ void CCC_Register()
     CMD3(CCC_Token, "vid_bpp", &psCurrentBPP, vid_bpp_token);
 #endif // DEBUG
 
+    CMD1(CCC_PART_Export, "part_export");
+    CMD1(CCC_PART_Import, "part_import");
     CMD1(CCC_VID_Reset, "vid_restart");
 
     // Sound

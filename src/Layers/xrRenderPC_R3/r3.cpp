@@ -532,6 +532,21 @@ void CRender::OnFrame()
 	}
 }
 
+// Particles
+void CRender::ExportParticles()
+{
+    Msg("Export particles with R3");
+    PSLibrary.Reload();
+    PSLibrary.Save2();
+}
+void CRender::ImportParticles()
+{
+    Msg("Import particles with R3");
+    PSLibrary.OnDestroy();
+    PSLibrary.Load2();
+    PSLibrary.Save();
+    PSLibrary.Reload();
+}
 
 // Implementation
 IRender_ObjectSpecific*	CRender::ros_create				(IRenderable* parent)				{ return xr_new<CROS_impl>();			}

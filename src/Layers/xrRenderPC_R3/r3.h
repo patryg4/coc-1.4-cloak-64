@@ -337,6 +337,10 @@ public:
     virtual void					ScreenshotAsyncEnd			(CMemoryWriter& memory_writer);
     virtual void		_BCL		OnFrame						();
 
+    // Particles
+    virtual void ExportParticles();
+    virtual void ImportParticles();
+
     // Render mode
     virtual void					rmNear						();
     virtual void					rmFar						();
