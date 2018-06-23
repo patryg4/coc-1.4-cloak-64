@@ -19,14 +19,22 @@ extern void save_stack_trace();
 #endif // DEBUG_MEMORY_MANAGER
 
 #define CHECK_MEMORY_BOUNDS
+//#define CHECK_MEMORY_GUARDS
 
 #ifdef CHECK_MEMORY_BOUNDS
 #endif // CHECK_MEMORY_BOUNDS
 
 #ifdef CHECK_MEMORY_BOUNDS
-#define BOUNDS_CHECK_SIZE 16
 #define BOUNDS_HEADER_VALUE 0xbe
 #define BOUNDS_FOOTER_VALUE 0xed
+
+#ifdef CHECK_MEMORY_GUARDS
+#define BOUNDS_CHECK_SIZE 16
+#else // CHECK_MEMORY_GUARDS
+#define BOUNDS_CHECK_SIZE 0
+#endif // CHECK_MEMORY_GUARDS
+
+#ifdef CHECK_MEMORY_GUARDS
 
 //#define BOUNDS_REPORT VERIFY2
 //#define BOUNDS_REPORT R_ASSERT2
@@ -59,6 +67,8 @@ static bool is_bounds_corrupt(void* ptr, u8 value)
 	}
 	return false;
 }
+#endif // CHECK_MEMORY_GUARDS
+
 #endif // CHECK_MEMORY_BOUNDS
 
 MEMPOOL mem_pools[mem_pools_count];
@@ -90,11 +100,16 @@ void* xrMemory::mem_alloc(size_t size
 		size_t _size = size + BOUNDS_CHECK_SIZE + BOUNDS_CHECK_SIZE;
 		void* _real = xr_aligned_offset_malloc(_size, 16, BOUNDS_CHECK_SIZE);
 		void* _ptr = (void*)(((u8*)_real) + BOUNDS_CHECK_SIZE);
-		size_t _realsize = xr_aligned_msize(_real);
-		void* _footer = (void*)(((u8*)xr_aligned_realptr(_real)) + _realsize - BOUNDS_CHECK_SIZE);
 
-		fill_bounds(_real, BOUNDS_HEADER_VALUE);
+#ifdef CHECK_MEMORY_GUARDS
+        size_t _realsize = xr_aligned_msize(_real);
+        void* _footer = (void*)(((u8*)xr_aligned_realptr(_real)) + _realsize - BOUNDS_CHECK_SIZE);
+
+        fill_bounds(_real, BOUNDS_HEADER_VALUE);
 		fill_bounds(_footer, BOUNDS_FOOTER_VALUE);
+#else // CHECK_MEMORY_GUARDS
+        memset(_ptr, 0xba, size);
+#endif // CHECK_MEMORY_GUARDS
 
 		return _ptr;
     }
@@ -196,11 +211,14 @@ void xrMemory::mem_free(void* P)
     {
 		void* _ptr = P;
 		void* _real = (void*)(((u8*)_ptr) - BOUNDS_CHECK_SIZE);
-		size_t _realsize = xr_aligned_msize(_real);
-		void* _footer = (void*)(((u8*)xr_aligned_realptr(_real)) + _realsize - BOUNDS_CHECK_SIZE);
+
+#ifdef CHECK_MEMORY_GUARDS
+        size_t _realsize = xr_aligned_msize(_real);
+        void* _footer = (void*)(((u8*)xr_aligned_realptr(_real)) + _realsize - BOUNDS_CHECK_SIZE);
 
 		BOUNDS_REPORT(!is_bounds_corrupt(_real, BOUNDS_HEADER_VALUE), "Memory header corruption at free");
 		BOUNDS_REPORT(!is_bounds_corrupt(_footer, BOUNDS_FOOTER_VALUE), "Memory footer corruption at free");
+#endif // CHECK_MEMORY_GUARDS
 
 		xr_aligned_free(_real);
 		return;
@@ -265,20 +283,26 @@ void* xrMemory::mem_realloc(void* P, size_t size
 
 		void* _ptr = P;
 		void* _real = (void*)(((u8*)_ptr) - BOUNDS_CHECK_SIZE);
-		size_t _realsize = xr_aligned_msize(_real);
-		void* _footer = (void*)(((u8*)xr_aligned_realptr(_real)) + _realsize - BOUNDS_CHECK_SIZE);
 
-		BOUNDS_REPORT(!is_bounds_corrupt(_real, BOUNDS_HEADER_VALUE), "Memory header corruption at realloc");
+#ifdef CHECK_MEMORY_GUARDS
+        size_t _realsize = xr_aligned_msize(_real);
+        void* _footer = (void*)(((u8*)xr_aligned_realptr(_real)) + _realsize - BOUNDS_CHECK_SIZE);
+
+        BOUNDS_REPORT(!is_bounds_corrupt(_real, BOUNDS_HEADER_VALUE), "Memory header corruption at realloc");
 		BOUNDS_REPORT(!is_bounds_corrupt(_footer, BOUNDS_FOOTER_VALUE), "Memory footer corruption at realloc");
+#endif // CHECK_MEMORY_GUARDS
 
 		size_t _size2 = size + BOUNDS_CHECK_SIZE + BOUNDS_CHECK_SIZE;
 		void* _real2 = xr_aligned_offset_realloc(_real, _size2, 16, BOUNDS_CHECK_SIZE);
 		void* _ptr2 = (void*)(((u8*)_real2) + BOUNDS_CHECK_SIZE);
-		size_t _realsize2 = xr_aligned_msize(_real2);
-		void* _footer2 = (void*)(((u8*)xr_aligned_realptr(_real2)) + _realsize2 - BOUNDS_CHECK_SIZE);
 
-		fill_bounds(_real2, BOUNDS_HEADER_VALUE);
+#ifdef CHECK_MEMORY_GUARDS
+        size_t _realsize2 = xr_aligned_msize(_real2);
+        void* _footer2 = (void*)(((u8*)xr_aligned_realptr(_real2)) + _realsize2 - BOUNDS_CHECK_SIZE);
+
+        fill_bounds(_real2, BOUNDS_HEADER_VALUE);
 		fill_bounds(_footer2, BOUNDS_FOOTER_VALUE);
+#endif CHECK_MEMORY_GUARDS
 
 		return _ptr2;
 	}
