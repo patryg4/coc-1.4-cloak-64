@@ -158,8 +158,6 @@ void CHUDManager::OnFrame()
 }
 //--------------------------------------------------------------------
 
-ENGINE_API extern float psHUD_FOV;
-
 void CHUDManager::Render_First()
 {
     if (!psHUD_Flags.is(HUD_WEAPON | HUD_WEAPON_RT | HUD_WEAPON_RT2 | HUD_DRAW_RT2))return;
@@ -245,7 +243,7 @@ void   CHUDManager::RenderActiveItemUI()
 }
 
 extern ENGINE_API BOOL bShowPauseString;
-//отрисовка элементов интерфейса
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void  CHUDManager::RenderUI()
 {
     if (!psHUD_Flags.is(HUD_DRAW_RT2))

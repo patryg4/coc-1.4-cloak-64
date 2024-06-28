@@ -17,6 +17,7 @@
 //#include "R_Backend.h"
 
 #define VIEWPORT_NEAR 0.2f
+#define HUD_VIEWPORT_NEAR 0.05f
 
 #define DEVICE_RESET_PRECACHE_FRAME_COUNT 10
 
@@ -85,7 +86,7 @@ protected:
     CTimer_paused TimerGlobal;
 
     //AVO: 
-    CTimer frame_timer;   //TODO: проверить, не дублируется-ли схожий таймер (alpet)
+    CTimer frame_timer;   //TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (alpet)
     //-AVO
 
 public:
