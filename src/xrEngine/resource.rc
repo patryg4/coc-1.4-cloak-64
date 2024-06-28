@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "WinResrc.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -63,7 +63,7 @@ BEGIN
             VALUE "FileDescription", "X-Ray 1.6 Engine"
             VALUE "FileVersion", "1.6.02"
             VALUE "InternalName", "xrEngine"
-            VALUE "LegalCopyright", "Copyright © 2009 GSC Game World"
+            VALUE "LegalCopyright", "Copyright ï¿½ 2009 GSC Game World"
             VALUE "OriginalFilename", "xrEngine.exe"
             VALUE "ProductName", "S.T.A.L.K.E.R.: Call Of Pripyat"
             VALUE "ProductVersion", "1.6.02"
@@ -101,7 +101,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""WinResrc.h""\r\n"
     "\0"
 END
 
