@@ -28,12 +28,12 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_unshadowed_nomsaa",	false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler			("s_lmap",			C.L_textures[0],false,D3DTADDRESS_CLAMP);
 		//C.r_Sampler_rtf		("s_accumulator",	r2_RT_accum		);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum		);
 
@@ -47,7 +47,7 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_normal_nomsaa",		false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler			("s_lmap",			C.L_textures[0],false,D3DTADDRESS_CLAMP);
 		//if (b_HW_smap)		{
 		//	if (b_HW_PCF)	C.r_Sampler_clf		("s_smap",r2_RT_smap_depth	);
@@ -58,7 +58,7 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		//C.r_Sampler_rtf		("s_accumulator",	r2_RT_accum		);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_smap",			r2_RT_smap_depth);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum);
@@ -75,7 +75,7 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_fullsize_nomsaa",		false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler			("s_lmap",			C.L_textures[0],false,D3DTADDRESS_CLAMP);
 		//if (b_HW_smap)		{
 		//	if (b_HW_PCF)	C.r_Sampler_clf		("s_smap",r2_RT_smap_depth	);
@@ -86,7 +86,7 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		//C.r_Sampler_rtf		("s_accumulator",	r2_RT_accum		);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_smap",			r2_RT_smap_depth);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum);
@@ -102,7 +102,7 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_fullsize_nomsaa",		false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler_clf		("s_lmap",			r2_RT_smap_surf);			// diff here
 		//if (b_HW_smap)		{
 		//	if (b_HW_PCF)	C.r_Sampler_clf		("s_smap",r2_RT_smap_depth	);
@@ -113,7 +113,7 @@ void	CBlender_accum_spot::Compile(CBlender_Compile& C)
 		//jitter				(C);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_smap",			r2_RT_smap_depth);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum);
@@ -158,12 +158,12 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_unshadowed_msaa",	false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler			("s_lmap",			C.L_textures[0],false,D3DTADDRESS_CLAMP);
 		//C.r_Sampler_rtf		("s_accumulator",	r2_RT_accum		);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum		);
 
@@ -177,7 +177,7 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_normal_msaa",		false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler			("s_lmap",			C.L_textures[0],false,D3DTADDRESS_CLAMP);
 		//if (b_HW_smap)		{
 		//	if (b_HW_PCF)	C.r_Sampler_clf		("s_smap",r2_RT_smap_depth	);
@@ -188,7 +188,7 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		//C.r_Sampler_rtf		("s_accumulator",	r2_RT_accum		);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_smap",			r2_RT_smap_depth);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum);
@@ -205,7 +205,7 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_fullsize_msaa",		false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler			("s_lmap",			C.L_textures[0],false,D3DTADDRESS_CLAMP);
 		//if (b_HW_smap)		{
 		//	if (b_HW_PCF)	C.r_Sampler_clf		("s_smap",r2_RT_smap_depth	);
@@ -216,7 +216,7 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		//C.r_Sampler_rtf		("s_accumulator",	r2_RT_accum		);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_smap",			r2_RT_smap_depth);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum);
@@ -232,7 +232,7 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		C.r_Pass			("accum_volume",	"accum_spot_fullsize_msaa",		false,	FALSE,FALSE,blend,D3DBLEND_ONE,dest);
 		//C.r_Sampler_rtf		("s_position",		r2_RT_P);
 		//C.r_Sampler_rtf		("s_normal",		r2_RT_N);
-		//C.r_Sampler_clw		("s_material",		r2_material);
+		//C.r_Sampler_clw		("s_diffuse",		r2_RT_albedo);
 		//C.r_Sampler_clf		("s_lmap",			r2_RT_smap_surf);			// diff here
 		//if (b_HW_smap)		{
 		//	if (b_HW_PCF)	C.r_Sampler_clf		("s_smap",r2_RT_smap_depth	);
@@ -243,7 +243,7 @@ void	CBlender_accum_spot_msaa::Compile(CBlender_Compile& C)
 		//jitter				(C);
 		C.r_dx10Texture		("s_position",		r2_RT_P);
 		C.r_dx10Texture		("s_normal",		r2_RT_N);
-		C.r_dx10Texture		("s_material",		r2_material);
+		C.r_dx10Texture		("s_diffuse",		r2_RT_albedo);
 		C.r_dx10Texture		("s_lmap",			C.L_textures[0]);
 		C.r_dx10Texture		("s_smap",			r2_RT_smap_depth);
 		C.r_dx10Texture		("s_accumulator",	r2_RT_accum);
