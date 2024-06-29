@@ -55,11 +55,11 @@ extern ECORE_API	float		ps_r__ssaDISCARD	;
 extern ECORE_API	float		ps_r__ssaDONTSORT	;
 extern ECORE_API	float		ps_r__ssaHZBvsTEX	;
 extern ECORE_API	int			ps_r__tf_Anisotropic;
+extern ECORE_API float ps_r__tf_Mipbias;
 
 // R1
 extern ECORE_API	float		ps_r1_ssaLOD_A;
 extern ECORE_API	float		ps_r1_ssaLOD_B;
-extern ECORE_API	float		ps_r1_tf_Mipbias;
 extern ECORE_API	float		ps_r1_lmodel_lerp;
 extern ECORE_API	float		ps_r1_dlights_clip;
 extern ECORE_API	float		ps_r1_pps_u;
@@ -80,7 +80,6 @@ enum
 // R2
 extern ECORE_API	float		ps_r2_ssaLOD_A;
 extern ECORE_API	float		ps_r2_ssaLOD_B;
-extern ECORE_API	float		ps_r2_tf_Mipbias;
 
 // R2-specific
 extern ECORE_API Flags32		ps_r2_ls_flags;				// r2-only
@@ -212,6 +211,5 @@ RFLAG_ACTOR_SHADOW = (1<<0),
 
 extern void						xrRender_initconsole	();
 extern BOOL						xrRender_test_hw		();
-extern void						xrRender_apply_tf		();
 
 #endif
