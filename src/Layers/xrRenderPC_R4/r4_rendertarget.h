@@ -32,11 +32,8 @@ public:
 	IBlender*					b_accum_point;
 	IBlender*					b_accum_spot;
 	IBlender*					b_accum_reflected;
-	IBlender*					b_bloom;
-	IBlender*					b_luminance;
 	IBlender*					b_combine;
 	IBlender*					b_postprocess_msaa;
-	IBlender*					b_bloom_msaa;
 	IBlender*					b_combine_msaa[8];
 	IBlender*					b_accum_mask_msaa[8];
 	IBlender*					b_accum_spot_msaa[8];
@@ -80,14 +77,6 @@ public:
 	ref_rt						rt_Generic_1;		// 32bit		(r,g,b,a)				// post-process, intermidiate results, etc.
 	//	Igor: for volumetric lights
 	ref_rt						rt_Generic_2;		// 32bit		(r,g,b,a)				// post-process, intermidiate results, etc.
-	ref_rt						rt_Bloom_1;			// 32bit, dim/4	(r,g,b,?)
-	ref_rt						rt_Bloom_2;			// 32bit, dim/4	(r,g,b,?)
-	ref_rt						rt_LUM_64;			// 64bit, 64x64,	log-average in all components
-	ref_rt						rt_LUM_8;			// 64bit, 8x8,		log-average in all components
-
-	ref_rt						rt_LUM_pool[CHWCaps::MAX_GPUS*2]	;	// 1xfp32,1x1,		exp-result -> scaler
-	ref_texture				t_LUM_src		;	// source
-	ref_texture				t_LUM_dest		;	// destination & usage for current frame
 
 	// env
 	ref_texture				t_envmap_0		;	// env-0
@@ -166,19 +155,6 @@ private:
 
 	ID3DVertexBuffer*		g_accum_volumetric_vb;
 	ID3DIndexBuffer*		g_accum_volumetric_ib;
-
-	// Bloom
-	ref_geom					g_bloom_build;
-	ref_geom					g_bloom_filter;
-	ref_shader				s_bloom_dbg_1;
-	ref_shader				s_bloom_dbg_2;
-	ref_shader				s_bloom;
-   ref_shader				s_bloom_msaa;
-	float							f_bloom_factor;
-
-	// Luminance
-	ref_shader			s_luminance;
-	float						f_luminance_adapt;
 
 	// Combine
 	ref_geom					g_combine;
@@ -293,8 +269,6 @@ public:
 	void						accum_reflected			(light* L);
 	//	Igor: for volumetric lights
 	void						accum_volumetric		(light* L);
-	void						phase_bloom				();
-	void						phase_luminance			();
 	void						phase_combine			();
 	void						phase_combine_volumetric();
 	void						phase_pp				();

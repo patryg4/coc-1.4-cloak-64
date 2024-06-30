@@ -21,13 +21,10 @@ public:
 		C.r_dx10Texture		("s_sky0",		"$null"			);
 		C.r_dx10Texture		("s_sky1",		"$null"			);
 		C.r_dx10Sampler		("smp_rtlinear");
-		//C.r_Sampler_rtf		("s_tonemap",	"$user$tonemap"	);	//. hack
-		C.r_dx10Texture		("s_tonemap",	"$user$tonemap"	);	//. hack
 		C.PassSET_ZB(FALSE, FALSE);
 #else	//	USE_DX10
 		C.r_Sampler_clf		("s_sky0",		"$null"			);
 		C.r_Sampler_clf		("s_sky1",		"$null"			);
-		C.r_Sampler_rtf		("s_tonemap",	"$user$tonemap"	);	//. hack
 #endif	//	USE_DX10
 		C.r_End				();
 	}
@@ -69,8 +66,6 @@ public:
 	virtual void Copy(IEnvironmentRender &_in);
 
 	virtual void OnFrame(CEnvironment &env);
-	virtual void OnLoad();
-	virtual void OnUnload();
 	virtual void RenderSky(CEnvironment &env);
 	virtual void RenderClouds(CEnvironment &env);
 	virtual void OnDeviceCreate();
@@ -86,7 +81,6 @@ private:
 	ref_shader				clouds_sh;
 	ref_geom				clouds_geom;
 
-	ref_texture				tonemap;
 	ref_texture				tsky0,tsky1;
 };
 
