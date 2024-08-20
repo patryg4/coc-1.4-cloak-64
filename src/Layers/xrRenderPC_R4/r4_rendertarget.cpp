@@ -275,8 +275,6 @@ CRenderTarget::CRenderTarget		()
 	Msg			("MSAA samples = %d", SampleCount );
 	if( RImplementation.o.dx10_msaa_opt )
 		Msg		("dx10_MSAA_opt = on" );
-	if( RImplementation.o.dx10_gbuffer_opt )
-		Msg		("dx10_gbuffer_opt = on" );
 #endif // DEBUG
 	param_blur			= 0.f;
 	param_gray			= 0.f;
@@ -354,48 +352,21 @@ CRenderTarget::CRenderTarget		()
 	//	NORMAL
 	{
 		u32		w=Device.dwWidth, h=Device.dwHeight;
-		rt_Position.create			(r2_RT_P,		w,h,D3DFMT_A16B16G16R16F, SampleCount );
+		rt_Position.create			(r2_RT_P, w,h,D3DFMT_A16B16G16R16F, SampleCount);
 
 		if( RImplementation.o.dx10_msaa )
 			rt_MSAADepth.create( r2_RT_MSAAdepth, w, h, D3DFMT_D24S8, SampleCount );
 
-		if( !RImplementation.o.dx10_gbuffer_opt )
-			rt_Normal.create			(r2_RT_N,		w,h,D3DFMT_A16B16G16R16F, SampleCount );
+		rt_Color.create				(r2_RT_albedo,		w,h,D3DFMT_A16B16G16R16F,       SampleCount );	
+		rt_Accumulator.create		(r2_RT_accum,		w,h,D3DFMT_A16B16G16R16F,  SampleCount );
 
-		// select albedo & accum
-		if (RImplementation.o.mrtmixdepth)	
-		{
-			// NV50
-			rt_Color.create			(r2_RT_albedo,	w,h,D3DFMT_A8R8G8B8		, SampleCount );
-			rt_Accumulator.create	(r2_RT_accum,	w,h,D3DFMT_A16B16G16R16F, SampleCount );
-		}
-		else		
-		{
-			// can't - mix-depth
-			if (RImplementation.o.fp16_blend) {
-				// NV40
-				if( !RImplementation.o.dx10_gbuffer_opt )
-				{
-					rt_Color.create				(r2_RT_albedo,		w,h,D3DFMT_A16B16G16R16F, SampleCount );	// expand to full
-					rt_Accumulator.create		(r2_RT_accum,		w,h,D3DFMT_A16B16G16R16F, SampleCount );
-				}
-				else
-				{
-					rt_Color.create				(r2_RT_albedo,		w,h,D3DFMT_A8R8G8B8,       SampleCount );	// expand to full
-					rt_Accumulator.create		(r2_RT_accum,		w,h,D3DFMT_A16B16G16R16F,  SampleCount );
-				}
-			} else {
-				// R4xx, no-fp-blend,-> albedo_wo
-				VERIFY						(RImplementation.o.albedo_wo);
-				rt_Color.create				(r2_RT_albedo,		   w,h,D3DFMT_A8R8G8B8		, SampleCount );	// normal
-				rt_Accumulator.create		(r2_RT_accum,		   w,h,D3DFMT_A16B16G16R16F, SampleCount );
-				rt_Accumulator_temp.create	(r2_RT_accum_temp,	w,h,D3DFMT_A16B16G16R16F, SampleCount );
-			}
-		}
+		if( !RImplementation.o.fp16_blend )
+		rt_Accumulator_temp.create	(r2_RT_accum_temp,	w,h,D3DFMT_A16B16G16R16F, SampleCount );
+
 
 		// generic(LDR) RTs
-		rt_Generic_0.create		(r2_RT_generic0,w,h,D3DFMT_A8R8G8B8, 1		);
-		rt_Generic_1.create		(r2_RT_generic1,w,h,D3DFMT_A8R8G8B8, 1		);
+		rt_Generic_0.create		(r2_RT_generic0,w,h,D3DFMT_A16B16G16R16F, 1		);
+		rt_Generic_1.create		(r2_RT_generic1,w,h,D3DFMT_A16B16G16R16F, 1		);
 		if( RImplementation.o.dx10_msaa )
 		{
 			rt_Generic_0_r.create			(r2_RT_generic0_r,w,h,D3DFMT_A8R8G8B8, SampleCount	);
@@ -407,6 +378,8 @@ CRenderTarget::CRenderTarget		()
 		//	temp: for higher quality blends
 		if (RImplementation.o.advancedpp)
 			rt_Generic_2.create			(r2_RT_generic2,w,h,D3DFMT_A16B16G16R16F, SampleCount );
+
+		rt_Generic_temp.create(r2_comb_temp, w, h, D3DFMT_A16B16G16R16F, 1);	
 	}
 
 	// OCCLUSION

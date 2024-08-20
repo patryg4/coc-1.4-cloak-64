@@ -205,6 +205,16 @@ void dxEnvironmentRender::OnFrame(CEnvironment &env)
 #endif	//	USE_DX10
 }
 
+void dxEnvironmentRender::OnLoad()
+{
+    
+}
+
+void dxEnvironmentRender::OnUnload()
+{
+   
+}
+
 void dxEnvironmentRender::RenderSky(CEnvironment &env)
 {
     // clouds_sh.create		("clouds","null");

@@ -96,7 +96,6 @@ public:
       u32		dx10_msaa			: 1;	//	DX10.0 path
       u32		dx10_msaa_hybrid	: 1;	//	DX10.0 main path with DX10.1 A-test msaa allowed
       u32		dx10_msaa_opt	    : 1;	//	DX10.1 path
-      u32		dx10_gbuffer_opt	: 1;	//	
       u32		dx10_sm4_1			: 1;	//	DX10.1 path
       u32		dx10_msaa_alphatest	: 2;	//	A-test mode
       u32		dx10_msaa_samples	: 4;
@@ -237,10 +236,8 @@ public:
         CTexture*		T	= RCache.get_ActiveTexture	(u32(C->samp.index));
         VERIFY				(T);
         float	mtl			= T->m_material;
-#ifdef	DEBUG
-        if (ps_r2_ls_flags.test(R2FLAG_GLOBALMATERIAL))	mtl=ps_r2_gmaterial;
-#endif
-        RCache.hemi.set_material (o_hemi,o_sun,0,(mtl+.5f)/4.f);
+
+        RCache.hemi.set_material (o_hemi,o_sun,0,mtl);
         RCache.hemi.set_pos_faces(o_hemi_cube[CROS_impl::CUBE_FACE_POS_X],
             o_hemi_cube[CROS_impl::CUBE_FACE_POS_Y],
             o_hemi_cube[CROS_impl::CUBE_FACE_POS_Z]);

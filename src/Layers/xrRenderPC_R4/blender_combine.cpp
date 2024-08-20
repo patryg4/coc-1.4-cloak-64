@@ -240,7 +240,6 @@ void	CBlender_combine_msaa::Compile(CBlender_Compile& C)
    ::Render->m_MSAASample = -1;
 }    
 
-
 CBlender_postprocess_msaa::CBlender_postprocess_msaa() { description.CLS = 0; }
 
 CBlender_postprocess_msaa::~CBlender_postprocess_msaa()

@@ -64,7 +64,8 @@ class dxEnvironmentRender : public IEnvironmentRender
 public:
 	dxEnvironmentRender();
 	virtual void Copy(IEnvironmentRender &_in);
-
+	virtual void OnLoad();
+	virtual void OnUnload();
 	virtual void OnFrame(CEnvironment &env);
 	virtual void RenderSky(CEnvironment &env);
 	virtual void RenderClouds(CEnvironment &env);

@@ -170,8 +170,7 @@ enum
 	//R3FLAG_MSAA					= (1<<28),
 	R3FLAG_MSAA_HYBRID			= (1<<25),
 	R3FLAG_MSAA_OPT				= (1<<26),
-	R3FLAG_GBUFFER_OPT			= (1<<27),
-	R3FLAG_USE_DX10_1			= (1<<28),
+	R3FLAG_USE_DX10_1			= (1<<27),
 	//R3FLAG_MSAA_ALPHATEST		= (1<<31),
 };
 
