@@ -13,6 +13,9 @@ public:
 	R_constant*		c_c_scale;
 	R_constant*		c_c_bias;
 	R_constant*		c_c_sun;
+	R_constant*		c_consts_old;
+	R_constant*		c_wave_old;
+	R_constant*		c_wind_old;
 
 public:
 	R_tree		();
@@ -26,6 +29,9 @@ public:
 	void			set_c_c_scale		(R_constant* C) {c_c_scale = C;}
 	void			set_c_c_bias		(R_constant* C) {c_c_bias = C;}
 	void			set_c_c_sun			(R_constant* C) {c_c_sun = C;}
+	void			set_c_consts_old	(R_constant* C) {c_consts_old = C;}
+	void			set_c_wave_old		(R_constant* C) {c_wave_old = C;}
+	void			set_c_wind_old		(R_constant* C) {c_wind_old = C;}
 
 	void			set_m_xform_v		(Fmatrix& mat);
 	void			set_m_xform			(Fmatrix& mat);
@@ -35,5 +41,8 @@ public:
 	void			set_c_scale			(float x, float y, float z, float w);
 	void			set_c_bias			(float x, float y, float z, float w);
 	void			set_c_sun			(float x, float y, float z, float w);
+	void			set_consts_old		(float x, float y, float z, float w);
+	void			set_wave_old		(Fvector4& vec);
+	void			set_wind_old		(Fvector4& vec);
 };
 #endif

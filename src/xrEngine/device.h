@@ -61,6 +61,8 @@ public:
     u32 dwTimeGlobal;
     u32 dwTimeContinual;
 
+    Fvector2 mJitter_Current;
+	Fvector2 mJitter_Previous;
     Fvector vCameraPosition;
     Fvector vCameraDirection;
     Fvector vCameraTop;
@@ -76,6 +78,10 @@ public:
     Fmatrix mView_saved;
     Fmatrix mProject_saved;
     Fmatrix mFullTransform_saved;
+
+    Fmatrix mView_old;
+	Fmatrix mProject_old;
+	Fmatrix mFullTransform_old;
 
     float fFOV;
     float fASPECT;

@@ -29,6 +29,8 @@ public:
     // data
     Fmatrix mTransform; // final x-form matrix (local to model)
     Fmatrix mRenderTransform; // final x-form matrix (model_base -> bone -> model)
+    Fmatrix				mRenderTransform_old;				// final x-form matrix (model_base -> bone -> model) old
+	Fmatrix				mRenderTransform_tmp;				// final x-form matrix (model_base -> bone -> model) temp	
 private:
     BoneCallback Callback;
     void* Callback_Param;
@@ -245,8 +247,8 @@ struct ECORE_API SJointIKData
         for (int k = 0; k < 3; k++)
         {
             // Kostya Slipchenko say:
-            // направление вращения в ОДЕ отличается от направления вращение в X-Ray
-            // поэтому меняем знак у лимитов
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ X-Ray
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             //F.w_float (_min(-limits[k].limit.x,-limits[k].limit.y)); // min (swap special for ODE)
             //F.w_float (_max(-limits[k].limit.x,-limits[k].limit.y)); // max (swap special for ODE)
 
@@ -548,6 +550,8 @@ IC void CBoneInstance::construct()
     mTransform.identity();
 
     mRenderTransform.identity();
+    mRenderTransform_old.identity	();
+	mRenderTransform_tmp.identity	();	
     Callback_overwrite = FALSE;
 }
 

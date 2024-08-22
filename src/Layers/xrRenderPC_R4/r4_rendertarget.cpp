@@ -627,6 +627,20 @@ CRenderTarget::CRenderTarget		()
 		}
 	}
 
+	{
+		u32 w = Device.dwWidth, h = Device.dwHeight;
+
+		t_zbuffer.create("$user$zbuffer");
+		t_zbuffer->surface_set(HW.pBaseTEXZB);
+
+		rt_motion_vectors.create("$user$motion_vectors", w, h, D3DFMT_G16R16F);
+		rt_Generic_0_flip.create("$user$generic0_flip", w, h, D3DFMT_A8R8G8B8, 1);
+		rt_Generic_0_previous.create("$user$generic0_previous", w, h, D3DFMT_A8R8G8B8, 1);
+
+		s_temporal_antialiasing.create("temporal_antialiasing");
+		s_cas.create("contrast_adaptive_sharpening");
+	}
+
 	// COMBINE
 	{
 		static D3DVERTEXELEMENT9 dwDecl[] =

@@ -27,6 +27,13 @@ BIND_DECLARE(wv);
 BIND_DECLARE(vp);
 BIND_DECLARE(wvp);
 
+BIND_DECLARE(w_old);
+BIND_DECLARE(v_old);
+BIND_DECLARE(p_old);
+BIND_DECLARE(wv_old);
+BIND_DECLARE(vp_old);
+BIND_DECLARE(wvp_old);
+
 #define DECLARE_TREE_BIND(c)	\
 	class cl_tree_##c: public R_constant_setup	{virtual void setup(R_constant* C) {RCache.tree.set_c_##c(C);} };	\
 	static cl_tree_##c	tree_binder_##c
@@ -36,6 +43,11 @@ DECLARE_TREE_BIND(m_xform);
 DECLARE_TREE_BIND(consts);
 DECLARE_TREE_BIND(wave);
 DECLARE_TREE_BIND(wind);
+
+DECLARE_TREE_BIND(consts_old);
+DECLARE_TREE_BIND(wave_old);
+DECLARE_TREE_BIND(wind_old);
+
 DECLARE_TREE_BIND(c_scale);
 DECLARE_TREE_BIND(c_bias);
 DECLARE_TREE_BIND(c_sun);
@@ -406,6 +418,25 @@ static class dev_param_8 : public R_constant_setup
 	}
 }    dev_param_8;
 
+class cl_times2 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		float t = float(RDEVICE.dwFrame);
+		RCache.set_c(C, t, t, t, t);
+	}
+};
+static cl_times2 binder_times2;
+
+class cl_jitter : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, Device.mJitter_Current.x, Device.mJitter_Current.y, Device.mJitter_Previous.x, Device.mJitter_Previous.y);
+	}
+};
+static cl_jitter binder_jitter;
+
 // Standart constant-binding
 void	CBlender_Compile::SetMapping	()
 {
@@ -418,6 +449,13 @@ void	CBlender_Compile::SetMapping	()
 	r_Constant				("m_VP",			&binder_vp);
 	r_Constant				("m_WVP",			&binder_wvp);
 
+	r_Constant("m_W_previous", &binder_w_old);
+	r_Constant("m_V_previous", &binder_v_old);
+	r_Constant("m_P_previous", &binder_p_old);
+	r_Constant("m_WV_previous", &binder_wv_old);
+	r_Constant("m_VP_previous", &binder_vp_old);
+	r_Constant("m_WVP_previous", &binder_wvp_old);
+
 	r_Constant				("m_xform_v",		&tree_binder_m_xform_v);
 	r_Constant				("m_xform",			&tree_binder_m_xform);
 	r_Constant				("consts",			&tree_binder_consts);
@@ -426,6 +464,10 @@ void	CBlender_Compile::SetMapping	()
 	r_Constant				("c_scale",			&tree_binder_c_scale);
 	r_Constant				("c_bias",			&tree_binder_c_bias);
 	r_Constant				("c_sun",			&tree_binder_c_sun);
+
+	r_Constant				("consts_previous",		&tree_binder_consts_old);
+	r_Constant				("wave_previous",  		&tree_binder_wave_old);
+	r_Constant				("wind_previous",  		&tree_binder_wind_old);
 
 	//hemi cube
 	r_Constant				("L_material",			&binder_material);
@@ -444,6 +486,9 @@ void	CBlender_Compile::SetMapping	()
 #endif
 	// time
 	r_Constant				("timers",			&binder_times);
+
+	r_Constant("timers2", &binder_times2);
+	r_Constant("jitters", &binder_jitter);
 
 	// eye-params
 	r_Constant				("eye_position",	&binder_eye_P);

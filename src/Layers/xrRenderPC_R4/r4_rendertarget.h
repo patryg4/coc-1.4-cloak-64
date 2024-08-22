@@ -90,6 +90,10 @@ public:
 //	TODO: DX10: CHeck if we need old-style SMAP
 //	IDirect3DSurface9*			rt_smap_ZB;		//
 
+	ref_rt rt_Generic_0_previous;
+	ref_rt rt_Generic_0_flip;
+	ref_rt rt_motion_vectors;
+
 	//	Igor: for async screenshots
 	ID3DTexture2D*			t_ss_async;				//32bit		(r,g,b,a) is situated in the system memory
 
@@ -108,7 +112,7 @@ public:
 
 	ref_rt rt_luma;
 
-
+	ref_texture t_zbuffer;
 
 private:
 	// OCCq
@@ -124,6 +128,8 @@ private:
 	ref_shader					s_hdao_cs_msaa;
 
 	ref_shader s_luma;
+	ref_shader s_temporal_antialiasing;	
+	ref_shader s_cas;
 
 	// Accum
 	ref_shader					s_accum_mask	;
@@ -253,6 +259,8 @@ public:
 	void						phase_vol_accumulator	();
 	void						shadow_direct			(light* L, u32 dls_phase);
 	void						phase_luma();
+	void phase_cas();
+	void phase_taa();
 
 	//	Generates min/max sm
 	void						create_minmax_SM();

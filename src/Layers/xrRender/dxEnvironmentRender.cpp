@@ -237,7 +237,9 @@ void dxEnvironmentRender::RenderSky(CEnvironment &env)
     dxEnvDescriptorMixerRender &mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
 
     // draw sky box
-    Fmatrix						mSky;
+	static Fmatrix mSky = Fidentity;
+	Fmatrix mSkyOld = mSky;
+
     mSky.rotateY				(env.CurrentEnv->sky_rotation);
     mSky.translate_over			(Device.vCameraPosition);
 
@@ -256,6 +258,7 @@ void dxEnvironmentRender::RenderSky(CEnvironment &env)
 
     // Render
     RCache.set_xform_world		(mSky);
+    RCache.set_xform_world_old(mSkyOld);
     RCache.set_Geometry			(sh_2geom);
     RCache.set_Shader			(sh_2sky);
 //	RCache.set_Textures			(&env.CurrentEnv->sky_r_textures);

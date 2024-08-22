@@ -62,6 +62,7 @@ void	CRenderTarget::phase_scene_prepare	()
       }
 	}
 
+	HW.pContext->ClearRenderTargetView(rt_motion_vectors->pRT, ColorRGBA);
 	//	Igor: for volumetric lights
 	m_bHasActiveVolumetric				= false;
 	//	Clear later if try to draw volumetric
@@ -76,8 +77,8 @@ void	CRenderTarget::phase_scene_begin	()
       pZB = rt_MSAADepth->pZRT;
 
 
-   	if (RImplementation.o.albedo_wo)	u_setrt		(rt_Position, rt_Accumulator,	pZB);
-	   else								u_setrt		(rt_Position,	rt_Color,		pZB);
+		if (RImplementation.o.albedo_wo) u_setrt(rt_Position, rt_Accumulator, rt_motion_vectors, pZB);
+		else u_setrt(rt_Position, rt_Color,  rt_motion_vectors, pZB);
 	   //else								u_setrt		(rt_Position,	rt_Color, rt_Normal,		pZB);
    
 

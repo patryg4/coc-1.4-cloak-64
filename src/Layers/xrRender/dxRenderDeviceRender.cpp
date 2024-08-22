@@ -377,6 +377,12 @@ void dxRenderDeviceRender::SetCacheXform(Fmatrix &mView, Fmatrix &mProject)
     RCache.set_xform_project(mProject);
 }
 
+void dxRenderDeviceRender::SetCacheXformOld(Fmatrix &mView, Fmatrix &mProject)
+{
+	RCache.set_xform_view_old(mView);
+	RCache.set_xform_project_old(mProject);
+}
+
 bool dxRenderDeviceRender::HWSupportsShaderYUV2RGB()
 {
     u32		v_dev	= CAP_VERSION(HW.Caps.raster_major, HW.Caps.raster_minor);

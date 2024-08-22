@@ -179,6 +179,38 @@ u32 CBlender_Compile::r_dx10Sampler(LPCSTR ResourceName)
 		i_dx10Filter(stage, D3DTEXF_POINT, D3DTEXF_NONE, D3DTEXF_POINT);
 	}
 
+		//Point, clamp
+	if (0 == xr_strcmp(ResourceName, "SamplerPointClamp"))
+	{
+		VERIFY(stage != u32(-1));
+
+		//Address
+		RS.SetSAMP(stage, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		RS.SetSAMP(stage, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+		RS.SetSAMP(stage, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP);
+
+		//Filter
+		RS.SetSAMP(stage, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+		RS.SetSAMP(stage, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+		RS.SetSAMP(stage, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+	}
+
+	//Linear, clamp
+	if (0 == xr_strcmp(ResourceName, "SamplerLinearClamp"))
+	{
+		VERIFY(stage != u32(-1));
+
+		//Address
+		RS.SetSAMP(stage, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		RS.SetSAMP(stage, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+		RS.SetSAMP(stage, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP);
+
+		//Filter
+		RS.SetSAMP(stage, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		RS.SetSAMP(stage, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		RS.SetSAMP(stage, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+	}
+
 	return					stage;
 }
 

@@ -63,11 +63,11 @@ const float		dm_fade = float(2 * dm_size) - .5f;
 class ECORE_API CDetailManager
 {
 public:
-	struct	SlotItem	{								// один кустик
+	struct	SlotItem	{								// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		float						scale;
 		float						scale_calculated;
 		Fmatrix						mRotY;
-		u32							vis_ID;				// индекс в visibility списке он же тип [не качается, качается1, качается2]
+		u32							vis_ID;				// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ visibility пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ [пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ1, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ2]
 		float						c_hemi;
 		float						c_sun;
 #if RENDER==R_R1
@@ -76,9 +76,9 @@ public:
 	};
 	DEFINE_VECTOR(SlotItem*,SlotItemVec,SlotItemVecIt);
 	struct	SlotPart	{                              	// 
-		u32							id;					// ID модельки
-		SlotItemVec					items;              // список кустиков
-		SlotItemVec					r_items[3];         // список кустиков for render
+		u32							id;					// ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		SlotItemVec					items;              // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		SlotItemVec					r_items[3];         // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ for render
 	};
 	enum	SlotType	{
 		stReady						= 0,				// Ready to use
@@ -86,13 +86,13 @@ public:
 
 		stFORCEDWORD				= 0xffffffff
 	};
-	struct	Slot		{								// распакованый слот размером DETAIL_SLOT_SIZE
+	struct	Slot		{								// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DETAIL_SLOT_SIZE
 		struct{
 			u32						empty	:1;
 			u32						type	:1;
 			u32						frame	:30;
 		};
-		int							sx,sz;				// координаты слота X x Y
+		int							sx,sz;				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ X x Y
 		vis_data					vis;				// 
 		SlotPart					G[dm_obj_in_slot];	// 
 
@@ -161,7 +161,7 @@ public:
 	int								cache_cx;
 	int								cache_cz;
 
-	PSS								poolSI;										// pool из которого выделяются SlotItem
+	PSS								poolSI;										// pool пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SlotItem
 
 	void							UpdateVisibleM	();
 	void							UpdateVisibleS	();
@@ -196,7 +196,7 @@ public:
 	void							hw_Unload		();
 	void							hw_Render		();
 #if defined(USE_DX10) || defined(USE_DX11)
-	void							hw_Render_dump	(const Fvector4 &consts, const Fvector4 &wave, const Fvector4 &wind, u32 var_id, u32 lod_id);
+	void							hw_Render_dump	(const Fvector4 &consts, const Fvector4 &wave, const Fvector4 &wind, const Fvector4& wave_old, const Fvector4& wind_old, u32 var_id, u32 lod_id);
 #else	//	USE_DX10
 	void							hw_Render_dump	(ref_constant array, u32 var_id, u32 lod_id, u32 c_base);
 #endif	//	USE_DX10

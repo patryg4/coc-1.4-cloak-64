@@ -55,6 +55,11 @@ void CDetailManager::hw_Render()
 	if ( (fDelta<0) || (fDelta>1))	fDelta = 0.03;
 	m_global_time_old = Device.fTimeGlobal;
 
+	static auto m_frame_render = u32(-1);
+	static auto m_time_pos_old = 0.0f;
+
+	static Fvector4	dir1_old = { 0,0,0 }, dir2_old = { 0,0,0 };
+
 	m_time_rot_1	+= (PI_MUL_2*fDelta/swing_current.rot1);
 	m_time_rot_2	+= (PI_MUL_2*fDelta/swing_current.rot2);
 	m_time_pos		+= fDelta*swing_current.speed;
@@ -71,36 +76,38 @@ void CDetailManager::hw_Render()
 	// Setup geometry and DMA
 	RCache.set_Geometry		(hw_Geom);
 
-	// Wave0
 	float		scale			=	1.f/float(quant);
-	Fvector4	wave;
-	Fvector4	consts;
-	consts.set				(scale,		scale,		ps_r__Detail_l_aniso,	ps_r__Detail_l_ambient);
-	//wave.set				(1.f/5.f,		1.f/7.f,	1.f/3.f,	Device.fTimeGlobal*swing_current.speed);
+	Fvector4 wave, wave_old, consts;	
+	// Wave0
 	wave.set				(1.f/5.f,		1.f/7.f,	1.f/3.f,	m_time_pos);
-	//RCache.set_c			(&*hwc_consts,	scale,		scale,		ps_r__Detail_l_aniso,	ps_r__Detail_l_ambient);				// consts
-	//RCache.set_c			(&*hwc_wave,	wave.div(PI_MUL_2));	// wave
-	//RCache.set_c			(&*hwc_wind,	dir1);																					// wind-dir
-	//hw_Render_dump			(&*hwc_array,	1, 0, c_hdr );
-	hw_Render_dump(consts, wave.div(PI_MUL_2), dir1, 1, 0);
+	wave_old.set(1.f / 5.f, 1.f / 7.f, 1.f / 3.f, m_time_pos_old);
+
+	consts.set(scale, scale, ps_r__Detail_l_aniso, ps_r__Detail_l_ambient);
+	hw_Render_dump(consts, wave.div(PI_MUL_2), dir1, wave_old.div(PI_MUL_2), dir1_old, 1, RImplementation.PHASE_NORMAL == RImplementation.phase ? 0 : 3);
+
 
 	// Wave1
-	//wave.set				(1.f/3.f,		1.f/7.f,	1.f/5.f,	Device.fTimeGlobal*swing_current.speed);
 	wave.set				(1.f/3.f,		1.f/7.f,	1.f/5.f,	m_time_pos);
-	//RCache.set_c			(&*hwc_wave,	wave.div(PI_MUL_2));	// wave
-	//RCache.set_c			(&*hwc_wind,	dir2);																					// wind-dir
-	//hw_Render_dump			(&*hwc_array,	2, 0, c_hdr );
-	hw_Render_dump(consts, wave.div(PI_MUL_2), dir2, 2, 0);
+	wave_old.set(1.f / 3.f, 1.f / 7.f, 1.f / 5.f, m_time_pos_old);
+
+	hw_Render_dump(consts, wave.div(PI_MUL_2), dir2, wave_old.div(PI_MUL_2), dir2_old, 2, RImplementation.PHASE_NORMAL == RImplementation.phase ? 0 : 3);
+
 
 	// Still
 	consts.set				(scale,		scale,		scale,				1.f);
-	//RCache.set_c			(&*hwc_s_consts,scale,		scale,		scale,				1.f);
-	//RCache.set_c			(&*hwc_s_xform,	Device.mFullTransform);
-	//hw_Render_dump			(&*hwc_s_array,	0, 1, c_hdr );
-	hw_Render_dump(consts, wave.div(PI_MUL_2), dir2, 0, 1);
+	hw_Render_dump(consts, wave.div(PI_MUL_2), dir2, wave_old.div(PI_MUL_2), dir2_old, 0, RImplementation.PHASE_NORMAL == RImplementation.phase ? 1 : 2);
+
+	if (m_frame_render != Device.dwFrame) {
+		m_time_pos_old = m_time_pos;
+
+		dir1_old.set(dir1);
+		dir2_old.set(dir2);
+
+		m_frame_render = Device.dwFrame;
+	}
 }
 
-void CDetailManager::hw_Render_dump(const Fvector4 &consts, const Fvector4 &wave, const Fvector4 &wind, u32 var_id, u32 lod_id)
+void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave, const Fvector4& wind, const Fvector4& wave_old, const Fvector4& wind_old, u32 var_id,u32 lod_id)
 {
 	static shared_str strConsts("consts");
 	static shared_str strWave("wave");
@@ -108,6 +115,8 @@ void CDetailManager::hw_Render_dump(const Fvector4 &consts, const Fvector4 &wave
 	static shared_str strArray("array");
 	static shared_str strXForm("xform");
 
+	static shared_str strWaveOld("wave_previous");
+	static shared_str strDir2DOld("dir2D_previous");
 	Device.Statistic->RenderDUMP_DT_Count	= 0;
 
 	// Matrices and offsets
@@ -143,6 +152,8 @@ void CDetailManager::hw_Render_dump(const Fvector4 &consts, const Fvector4 &wave
 				RCache.set_c(strDir2D, wind);
 				RCache.set_c(strXForm, Device.mFullTransform);
 
+				RCache.set_c(strWaveOld, wave_old);
+				RCache.set_c(strDir2DOld, wind_old);
 				//ref_constant constArray = RCache.get_c(strArray);
 				//VERIFY(constArray);
 

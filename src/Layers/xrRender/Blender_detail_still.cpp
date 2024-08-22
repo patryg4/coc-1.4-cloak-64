@@ -154,6 +154,24 @@ void	CBlender_Detail_Still::Compile	(CBlender_Compile& C)
 			C.RS.SetRS	( D3DRS_ZFUNC, D3DCMP_EQUAL);
 		C.r_End			();
 		break;
+
+	case SE_R2_SHADOW:
+		C.r_Pass("shadow_detail_s", "shadow_direct_base_aref", FALSE,TRUE,TRUE,FALSE);
+		C.r_dx10Texture("s_base", C.L_textures[0]);
+		C.r_dx10Sampler("smp_base");
+		C.r_dx10Sampler("smp_linear");
+		C.r_ColorWriteEnable(false, false, false, false);
+		C.r_End();
+		break;
+
+	case SE_R2_SHADOW_WAVE:
+		C.r_Pass("shadow_detail_w", "shadow_direct_base_aref", FALSE,TRUE,TRUE,FALSE);
+		C.r_dx10Texture("s_base", C.L_textures[0]);
+		C.r_dx10Sampler("smp_base");
+		C.r_dx10Sampler("smp_linear");
+		C.r_ColorWriteEnable(false, false, false, false);
+		C.r_End();
+		break;	
 	}
 }
 #endif

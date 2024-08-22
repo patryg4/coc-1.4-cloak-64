@@ -35,6 +35,71 @@ void CRenderTarget::DoAsyncScreenshot()
 }
 
 float	hclip(float v, float dim)		{ return 2.f*v/dim - 1.f; }
+
+void CRenderTarget::phase_cas()
+{
+	//Constants
+	u32 Offset = 0;
+	u32 C = color_rgba(0, 0, 0, 255);
+
+	//First pass (TAA)
+	u_setrt(rt_Generic_0_flip, 0, 0, 0);
+	RCache.set_CullMode(CULL_NONE);
+	RCache.set_Stencil(FALSE);
+
+	//Fill vertex buffer
+	FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(3, g_combine->vb_stride, Offset);
+	pv->set(-1.0, 1.0, 1.0, 1.0, C, 0.0, 0.0);
+	pv++;
+	pv->set(3.0, 1.0, 1.0, 1.0, C, 2.0, 0.0);
+	pv++;
+	pv->set(-1.0, -3.0, 1.0, 1.0, C, 0.0, 2.0);
+	pv++;
+	RCache.Vertex.Unlock(3, g_combine->vb_stride);
+
+	//Set pass
+	RCache.set_Shader(s_cas);
+	RCache.set_c("f_intensity", ps_cas_intensity);
+	RCache.set_Geometry(g_combine);
+	RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 3, 0, 1);
+
+	//Copy previous frame
+	HW.pContext->CopyResource(rt_Generic_0->pTexture->surface_get(), rt_Generic_0_flip->pTexture->surface_get());
+}
+
+void CRenderTarget::phase_taa()
+{
+	//Constants
+	u32 Offset = 0;
+	u32 C = color_rgba(0, 0, 0, 255);
+
+	//First pass (TAA)
+	u_setrt(rt_Generic_0_flip, 0, 0, 0);
+	RCache.set_CullMode(CULL_NONE);
+	RCache.set_Stencil(FALSE);
+
+	//Fill vertex buffer
+	FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(3, g_combine->vb_stride, Offset);
+	pv->set(-1.0, 1.0, 1.0, 1.0, C, 0.0, 0.0);
+	pv++;
+	pv->set(3.0, 1.0, 1.0, 1.0, C, 2.0, 0.0);
+	pv++;
+	pv->set(-1.0, -3.0, 1.0, 1.0, C, 0.0, 2.0);
+	pv++;
+	RCache.Vertex.Unlock(3, g_combine->vb_stride);
+
+	//Set pass
+	RCache.set_Shader(s_temporal_antialiasing);
+	RCache.set_Geometry(g_combine);
+	RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 3, 0, 1);
+
+	//Copy previous frame
+	HW.pContext->CopyResource(rt_Generic_0_previous->pTexture->surface_get(), rt_Generic_0_flip->pTexture->surface_get());
+
+	//Copy TAA result to current target
+	HW.pContext->CopyResource(rt_Generic_0->pTexture->surface_get(), rt_Generic_0_flip->pTexture->surface_get());	
+}
+
 void	CRenderTarget::phase_combine	()
 {
 	PIX_EVENT(phase_combine);
@@ -284,6 +349,9 @@ void	CRenderTarget::phase_combine	()
    }
 
 	phase_luma();
+	phase_taa();
+	if(ps_cas_intensity != 0.0)
+		phase_cas();
 
 	// Distortion filter
 	BOOL	bDistort	= RImplementation.o.distortion_enabled;				// This can be modified

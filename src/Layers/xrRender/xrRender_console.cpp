@@ -211,6 +211,8 @@ int			ps_r2_wait_sleep			= 0;
 float		ps_r2_lt_smooth				= 1.f;				// 1.f
 float		ps_r2_slight_fade			= 0.5f;				// 1.f
 
+float 		ps_cas_intensity = 0.0f;
+
 //debug
 Fvector3 ps_dev_param_1 = { .0f, .0f, .0f };
 Fvector3 ps_dev_param_2 = { .0f, .0f, .0f };
@@ -781,7 +783,7 @@ void		xrRender_initconsole	()
 	CMD3(CCC_Mask,		"r1_detail_textures",	&ps_r2_ls_flags,			R1FLAG_DETAIL_TEXTURES);
 
 	CMD4(CCC_Float,		"r1_fog_luminance",		&ps_r1_fog_luminance,		0.2f,	5.f	);
-
+	CMD4(CCC_Float, "r2_cas_intensity", &ps_cas_intensity, 0.f,1.f);
 	// Software Skinning
 	// 0 - disabled (renderer can override)
 	// 1 - enabled

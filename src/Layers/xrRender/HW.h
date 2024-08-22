@@ -60,7 +60,10 @@ public:
 	ID3D11DeviceContext*    pContext;	//	combine with DX9 pDevice via typedef
 	IDXGISwapChain*         m_pSwapChain;
 	ID3D11RenderTargetView*	pBaseRT;	//	combine with DX9 pBaseRT via typedef
-	ID3D11DepthStencilView*	pBaseZB;
+
+	ID3D11DepthStencilView*	pBaseZB; //dsv
+	ID3D11ShaderResourceView* pBaseSRVZB; //srv
+	ID3DTexture2D* pBaseTEXZB; //2dtex
 
 	CHWCaps					Caps;
 
@@ -77,7 +80,10 @@ public:
 	ID3D10Device*        	pContext;	//	combine with DX9 pDevice via typedef
 	IDXGISwapChain*         m_pSwapChain;
 	ID3D10RenderTargetView*	pBaseRT;	//	combine with DX9 pBaseRT via typedef
-	ID3D10DepthStencilView*	pBaseZB;
+
+	ID3D10DepthStencilView*	pBaseZB; //dsv
+	ID3D10ShaderResourceView* pBaseSRVZB; //srv
+	ID3DTexture2D* pBaseTEXZB; //2dtex
 
 	CHWCaps					Caps;
 

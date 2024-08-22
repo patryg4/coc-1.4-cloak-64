@@ -18,6 +18,10 @@ void	R_tree::unmap		()
 	c_c_scale	= 0;
 	c_c_bias	= 0;
 	c_c_sun		= 0;
+
+	c_consts_old = 0;
+	c_wave_old   = 0;
+	c_wind_old   = 0;
 }
 
 void	R_tree::set_m_xform_v	(Fmatrix& mat)
@@ -58,4 +62,19 @@ void	R_tree::set_c_bias	(float x, float y, float z, float w)
 void	R_tree::set_c_sun	(float x, float y, float z, float w)
 {
 	if (c_c_sun) RCache.set_c(c_c_sun, x, y, z, w);
+}
+
+void	R_tree::set_consts_old (float x, float y, float z, float w)
+{
+	if (c_consts_old) RCache.set_c(c_consts_old, x, y, z, w);
+}
+
+void	R_tree::set_wave_old (Fvector4& vec)
+{
+	if (c_wave_old) RCache.set_c(c_wave_old, vec);
+}
+
+void	R_tree::set_wind_old (Fvector4& vec)
+{
+	if (c_wind_old) RCache.set_c(c_wind_old, vec);
 }
