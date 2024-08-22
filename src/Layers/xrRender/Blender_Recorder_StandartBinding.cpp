@@ -172,7 +172,7 @@ class cl_fog_params	: public R_constant_setup {
 			float	n		= g_pGamePersistent->Environment().CurrentEnv->fog_near	;
 			float	f		= g_pGamePersistent->Environment().CurrentEnv->fog_far		;
 			float	r		= 1/(f-n);
-			result.set		(-n*r, r, r, r);
+			result.set		(-n*r, r, n, f);
 		}
 		RCache.set_c	(C,result);
 	}
@@ -304,6 +304,107 @@ static class cl_screen_res : public R_constant_setup
 	}
 }	binder_screen_res;
 
+static class cl_near_far_plane : public R_constant_setup
+{
+	Fvector4 result;
+
+	virtual void setup(R_constant* C)
+	{
+		float nearPlane = float(VIEWPORT_NEAR);
+		float farPlane = g_pGamePersistent->Environment().CurrentEnv->far_plane;
+		result.set(nearPlane, farPlane, 0, 0);
+		RCache.set_c(C, result);
+	}
+} binder_near_far_plane;
+
+static class cl_screen_params : public R_constant_setup
+{
+	Fvector4 result;
+
+	virtual void setup(R_constant* C)
+	{
+		float fov = float(Device.fFOV);
+		float aspect = float(Device.fASPECT);
+		result.set(fov, aspect, tan(deg2rad(fov) / 2), g_pGamePersistent->Environment().CurrentEnv->far_plane * 0.75f);
+		RCache.set_c(C, result);
+	}
+};
+
+static cl_screen_params binder_screen_params;
+
+//Sneaky debug stuff
+extern Fvector3 ps_dev_param_1;
+extern Fvector3 ps_dev_param_2;
+extern Fvector3 ps_dev_param_3;
+extern Fvector3 ps_dev_param_4;
+extern Fvector3 ps_dev_param_5;
+extern Fvector3 ps_dev_param_6;
+extern Fvector3 ps_dev_param_7;
+extern Fvector3 ps_dev_param_8;
+
+static class dev_param_1 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_1.x, ps_dev_param_1.y, ps_dev_param_1.z, 0);
+	}
+}    dev_param_1;
+
+static class dev_param_2 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_2.x, ps_dev_param_2.y, ps_dev_param_2.z, 0);
+	}
+}    dev_param_2;
+
+static class dev_param_3 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_3.x, ps_dev_param_3.y, ps_dev_param_3.z, 0);
+	}
+}    dev_param_3;
+
+static class dev_param_4 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_4.x, ps_dev_param_4.y, ps_dev_param_4.z, 0);
+	}
+}    dev_param_4;
+
+static class dev_param_5 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_5.x, ps_dev_param_5.y, ps_dev_param_5.z, 0);
+	}
+}    dev_param_5;
+
+static class dev_param_6 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_6.x, ps_dev_param_6.y, ps_dev_param_6.z, 0);
+	}
+}    dev_param_6;
+
+static class dev_param_7 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_7.x, ps_dev_param_7.y, ps_dev_param_7.z, 0);
+	}
+}    dev_param_7;
+
+static class dev_param_8 : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		RCache.set_c(C, ps_dev_param_8.x, ps_dev_param_8.y, ps_dev_param_8.z, 0);
+	}
+}    dev_param_8;
 
 // Standart constant-binding
 void	CBlender_Compile::SetMapping	()
@@ -359,6 +460,8 @@ void	CBlender_Compile::SetMapping	()
 	r_Constant				("L_ambient",		&binder_amb_color);
 #endif
 	r_Constant				("screen_res",		&binder_screen_res);
+	r_Constant("ogse_c_screen", &binder_screen_params);
+	r_Constant("near_far_plane", &binder_near_far_plane);	
 
 	// detail
 	//if (bDetail	&& detail_scaler)
@@ -367,6 +470,16 @@ void	CBlender_Compile::SetMapping	()
 	//	anyway.
 	if (detail_scaler)
 		r_Constant			("dt_params",		detail_scaler);
+
+	// Shader stuff
+	r_Constant("shader_param_1", &dev_param_1);
+	r_Constant("shader_param_2", &dev_param_2);
+	r_Constant("shader_param_3", &dev_param_3);
+	r_Constant("shader_param_4", &dev_param_4);
+	r_Constant("shader_param_5", &dev_param_5);
+	r_Constant("shader_param_6", &dev_param_6);
+	r_Constant("shader_param_7", &dev_param_7);
+	r_Constant("shader_param_8", &dev_param_8);
 
 	// other common
 	for (u32 it=0; it<DEV->v_constant_setup.size(); it++)

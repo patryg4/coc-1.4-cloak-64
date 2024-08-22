@@ -45,6 +45,7 @@ public:
 	IBlender*					b_accum_reflected_msaa[8];
 	IBlender*					b_ssao;
 	IBlender*					b_ssao_msaa[8];
+	IBlender* b_luma;
 
     // compute shader for hdao
     IBlender*                   b_hdao_cs;
@@ -101,6 +102,14 @@ public:
 	ID3DTexture2D*			t_noise_surf_mipped;
 	ref_texture					t_noise_mipped;
 	
+	ID3DTexture2D* luma_tex;
+	ID3DRenderTargetView* luma_rtv; 
+	ref_texture luma_srv; 
+
+	ref_rt rt_luma;
+
+
+
 private:
 	// OCCq
 
@@ -113,6 +122,8 @@ private:
 	ref_shader					s_ssao_msaa[8];
 	ref_shader					s_hdao_cs;
 	ref_shader					s_hdao_cs_msaa;
+
+	ref_shader s_luma;
 
 	// Accum
 	ref_shader					s_accum_mask	;
@@ -241,6 +252,7 @@ public:
 	void						phase_accumulator		();
 	void						phase_vol_accumulator	();
 	void						shadow_direct			(light* L, u32 dls_phase);
+	void						phase_luma();
 
 	//	Generates min/max sm
 	void						create_minmax_SM();

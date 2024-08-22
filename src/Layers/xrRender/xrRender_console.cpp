@@ -211,6 +211,16 @@ int			ps_r2_wait_sleep			= 0;
 float		ps_r2_lt_smooth				= 1.f;				// 1.f
 float		ps_r2_slight_fade			= 0.5f;				// 1.f
 
+//debug
+Fvector3 ps_dev_param_1 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_2 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_3 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_4 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_5 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_6 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_7 = { .0f, .0f, .0f };
+Fvector3 ps_dev_param_8 = { .0f, .0f, .0f };
+
 //	x - min (0), y - focus (1.4), z - max (100)
 Fvector3	ps_r2_dof					= Fvector3().set(-1.25f, 1.4f, 600.f);
 float		ps_r2_dof_sky				= 30;				//	distance to sky
@@ -837,6 +847,18 @@ void		xrRender_initconsole	()
 	CMD4(CCC_Integer,	"r2_gi_depth",			&ps_r2_GI_depth,			1,		5		);
 	CMD4(CCC_Integer,	"r2_gi_photons",		&ps_r2_GI_photons,			8,		256		);
 	CMD4(CCC_Float,		"r2_gi_refl",			&ps_r2_GI_refl,				EPS_L,	0.99f	);
+
+	//Shader param stuff
+	Fvector3 tw2_min = { -1000.f, -1000.f, -1000.f };
+	Fvector3 tw2_max = { 1000.f, 1000.f, 1000.f };
+	CMD4(CCC_Vector3, "shader_param_1", &ps_dev_param_1, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_2", &ps_dev_param_2, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_3", &ps_dev_param_3, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_4", &ps_dev_param_4, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_5", &ps_dev_param_5, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_6", &ps_dev_param_6, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_7", &ps_dev_param_7, tw2_min, tw2_max);
+	CMD4(CCC_Vector3, "shader_param_8", &ps_dev_param_8, tw2_min, tw2_max);	
 
 	CMD4(CCC_Integer,	"r2_wait_sleep",		&ps_r2_wait_sleep,			0,		1		);
 

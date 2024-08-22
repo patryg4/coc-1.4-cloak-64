@@ -8,6 +8,7 @@
 #include "blender_light_reflected.h"
 #include "blender_combine.h"
 #include "blender_ssao.h"
+#include "blender_luma.h"
 #include "dx11MinMaxSMBlender.h"
 #include "dx11HDAOCSBlender.h"
 #include "../xrRenderDX10/msaa/dx10MSAABlender.h"
@@ -377,9 +378,7 @@ CRenderTarget::CRenderTarget		()
 		//rt_Generic_2.create			(r2_RT_generic2,w,h,D3DFMT_A8R8G8B8		);
 		//	temp: for higher quality blends
 		if (RImplementation.o.advancedpp)
-			rt_Generic_2.create			(r2_RT_generic2,w,h,D3DFMT_A16B16G16R16F, SampleCount );
-
-		rt_Generic_temp.create(r2_comb_temp, w, h, D3DFMT_A16B16G16R16F, 1);	
+			rt_Generic_2.create			(r2_RT_generic2,w,h,D3DFMT_A16B16G16R16F, SampleCount );	
 	}
 
 	// OCCLUSION
@@ -541,6 +540,40 @@ CRenderTarget::CRenderTarget		()
 				s_accum_reflected_msaa[i].create( b_accum_reflected_msaa[i], "null");
 			}
 		}
+	}
+
+	//// MIPPO /////
+	{
+		u32 w = Device.dwWidth, h = Device.dwHeight;
+
+		b_luma = xr_new<CBlender_luma>();
+
+		s_luma.create(b_luma, "r2\\luma");		
+
+		D3D11_TEXTURE2D_DESC descTex;
+		ZeroMemory(&descTex, sizeof(D3D11_TEXTURE2D_DESC));
+		descTex.ArraySize = 1;
+		descTex.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		descTex.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+		descTex.Usage = D3D11_USAGE_DEFAULT;
+		descTex.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+		descTex.Width  = w;
+		descTex.Height = h;
+		descTex.MipLevels = 9;
+		descTex.SampleDesc.Count = 1;
+		HW.pDevice->CreateTexture2D(&descTex, nullptr, &luma_tex);
+
+
+		D3D11_RENDER_TARGET_VIEW_DESC descRTV;
+		descRTV.Format = descTex.Format;
+		descRTV.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		descRTV.Texture2D.MipSlice = 0;
+		HW.pDevice->CreateRenderTargetView(luma_tex, &descRTV, &luma_rtv);
+
+		rt_luma.create("$user$luma_avg", 1, 1, D3DFMT_R16F, 1);
+
+		luma_srv.create("$user$luma_tex");
+		luma_srv->surface_set(luma_tex);
 	}	
 
 	// HBAO
@@ -955,6 +988,7 @@ CRenderTarget::~CRenderTarget	()
 	xr_delete					(b_accum_point			);
 	xr_delete					(b_accum_direct			);
 	xr_delete					(b_ssao					);
+	xr_delete(b_luma);
 
    if( RImplementation.o.dx10_msaa )
    {
