@@ -41,6 +41,38 @@ ENGINE_API BOOL g_bRendering = FALSE;
 BOOL g_bLoaded = FALSE;
 ref_light precache_light = 0;
 
+const int k_SampleCount = 16;
+int m_SampleIndex = 0;
+Fvector2 jitterVector;
+
+float GetHaltonValue(int index, int radix)
+{
+	float result = 0.0f;
+	float fraction = 1.0f / (float)radix;
+
+	while (index > 0)
+	{
+		result += (float)(index % radix) * fraction;
+
+		index /= radix;
+		fraction /= (float)radix;
+	}
+
+	return result;
+}
+
+Fvector2 GenerateRandomOffset()
+{
+	Fvector2 offset;
+
+	offset.set(GetHaltonValue(m_SampleIndex%1024, 2), GetHaltonValue(m_SampleIndex%1024, 3));
+
+	if (++m_SampleIndex >= k_SampleCount)
+		m_SampleIndex = 0;
+
+	return offset;
+}
+
 BOOL CRenderDevice::Begin()
 {
 #ifndef DEDICATED_SERVER
@@ -257,11 +289,22 @@ void CRenderDevice::on_idle()
     //RCache.set_xform_project ( mProject );
     D3DXMatrixInverse((D3DXMATRIX*)&mInvFullTransform, 0, (D3DXMATRIX*)&mFullTransform);
 
-    vCameraPosition_saved = vCameraPosition;
-    mFullTransform_saved = mFullTransform;
+    mJitter_Previous = mJitter_Current;
+	mJitter_Current = GenerateRandomOffset();
+	mJitter_Current.x = (mJitter_Current.x * 2 - 1) / dwWidth;
+	mJitter_Current.y = (mJitter_Current.y * 2 - 1) / dwHeight;
+
+	mView_old = mView_saved;
+	mProject_old = mProject_saved;
+	mFullTransform_old = mFullTransform_saved;
+
+	m_pRender->SetCacheXformOld(mView_old, mProject_old);
+
     mView_saved = mView;
     mProject_saved = mProject;
-    
+    mFullTransform_saved = mFullTransform;
+
+	vCameraPosition_saved = vCameraPosition;
     // *** Resume threads
     // Capture end point - thread must run only ONE cycle
     // Release start point - allow thread to run
