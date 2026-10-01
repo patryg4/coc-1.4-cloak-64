@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.37611.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{89F6A7EE-3BBE-45D3-A8A8-5D9366CD987B}"
 EndProject
@@ -1483,7 +1483,6 @@ Global
 		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.Release|Win32.ActiveCfg = Release|Win32
 		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.Release|Win32.Build.0 = Release|Win32
 		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.Release|x64.ActiveCfg = Release|x64
-		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.Release|x64.Build.0 = Release|x64
 		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.ReleaseMT_oaMan|Any CPU.ActiveCfg = Release|Win32
 		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.ReleaseMT_oaMan|Any CPU.Build.0 = Release|Win32
 		{57A498C9-A741-4DDF-8EFC-BFB9EB6B00E2}.ReleaseMT_oaMan|Win32.ActiveCfg = Release|Win32
@@ -1541,7 +1540,6 @@ Global
 		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.Release|Win32.ActiveCfg = Release|Win32
 		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.Release|Win32.Build.0 = Release|Win32
 		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.Release|x64.ActiveCfg = Release|x64
-		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.Release|x64.Build.0 = Release|x64
 		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.ReleaseMT_oaMan|Any CPU.ActiveCfg = Release|Win32
 		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.ReleaseMT_oaMan|Any CPU.Build.0 = Release|Win32
 		{963BA4E5-499A-454D-B002-1D5ECE0527A6}.ReleaseMT_oaMan|Win32.ActiveCfg = Release|Win32
@@ -2161,7 +2159,6 @@ Global
 		{3F383D3C-FCD8-4170-990B-EB4833F09248}.Release|Win32.ActiveCfg = Release|Win32
 		{3F383D3C-FCD8-4170-990B-EB4833F09248}.Release|Win32.Build.0 = Release|Win32
 		{3F383D3C-FCD8-4170-990B-EB4833F09248}.Release|x64.ActiveCfg = Release|x64
-		{3F383D3C-FCD8-4170-990B-EB4833F09248}.Release|x64.Build.0 = Release|x64
 		{3F383D3C-FCD8-4170-990B-EB4833F09248}.ReleaseMT_oaMan|Any CPU.ActiveCfg = Release|Win32
 		{3F383D3C-FCD8-4170-990B-EB4833F09248}.ReleaseMT_oaMan|Any CPU.Build.0 = Release|Win32
 		{3F383D3C-FCD8-4170-990B-EB4833F09248}.ReleaseMT_oaMan|Win32.ActiveCfg = Release|Win32

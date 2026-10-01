@@ -13,13 +13,13 @@
 #include "script_engine_export.h"
 
 #pragma optimize("s",on)
-template <typename TList> struct Register
+template <typename TList> struct ScriptRegister
 {
 	ASSERT_TYPELIST(TList);
 
 	static void _Register(lua_State *L)
 	{
-		Register<TList::Tail>::_Register(L);
+		ScriptRegister<TList::Tail>::_Register(L);
 #ifdef XRGAME_EXPORTS
 #	ifdef _DEBUG
 		Msg("Exporting %s",typeid(TList::Head).name());
@@ -29,7 +29,7 @@ template <typename TList> struct Register
 	}
 };
 
-template <> struct Register<Loki::NullType>
+template <> struct ScriptRegister<Loki::NullType>
 {
 	static void _Register(lua_State *L)
 	{
@@ -99,7 +99,7 @@ template <typename TFullList> struct DynamicCast
 
 void export_classes	(lua_State *L)
 {
-	Register<script_type_list>::_Register(L);
+	ScriptRegister<script_type_list>::_Register(L);
 //	DynamicCast<script_type_list>::Register(L);
 //	Register<Loki::TL::DerivedToFrontAll<script_type_list>::Result>::_Register(L);
 }

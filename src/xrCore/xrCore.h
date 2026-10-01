@@ -272,11 +272,11 @@ DEFINE_VECTOR(xr_rtoken, RTokenVec, RTokenVecIt);
 #include "log.h"
 #include "xr_trims.h"
 #include "xr_ini.h"
-#ifdef NO_FS_SCAN
-# include "ELocatorAPI.h"
-#else
+//#ifdef NO_FS_SCAN
+//# include "ELocatorAPI.h"
+//#else
 # include "LocatorAPI.h"
-#endif
+//#endif
 #include "FileSystem.h"
 #include "FTimer.h"
 #include "fastdelegate.h"

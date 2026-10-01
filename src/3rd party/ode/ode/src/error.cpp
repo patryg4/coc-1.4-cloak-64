@@ -22,6 +22,7 @@
 
 #include <ode/config.h>
 #include <ode/error.h>
+#include <stdlib.h>
 
 #pragma warning(disable:4996)
 

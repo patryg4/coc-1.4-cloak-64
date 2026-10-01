@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <d3dcompiler.h>
 //#include "../../xrEngine/xr_effgamma.h"
 #include "xr_effgamma.h"
 #include "dxRenderDeviceRender.h"
@@ -77,7 +78,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 #endif
 
 				// save (logical & physical)
-				ID3DBlob*		saved	= 0;
+#if defined(USE_DX10) || defined(USE_DX11)
+				ID3DBlob* saved = 0;
+#else
+				LPD3DXBUFFER saved = 0;
+#endif
 #ifdef USE_DX11
 				HRESULT hr = D3DX11SaveTextureToMemory(HW.pContext, pSrcSmallTexture, D3DX11_IFF_DDS, &saved, 0);
 #else
@@ -126,7 +131,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 					NULL, pSrcSmallTexture ));
 #endif
 				// save (logical & physical)
-				ID3DBlob*		saved	= 0;
+#if defined(USE_DX10) || defined(USE_DX11)
+				ID3DBlob* saved = 0;
+#else
+				LPD3DXBUFFER saved = 0;
+#endif
 #ifdef USE_DX11
 				HRESULT hr	= D3DX11SaveTextureToMemory(HW.pContext, pSrcSmallTexture, D3DX11_IFF_DDS, &saved, 0);
 #else
@@ -174,7 +183,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				if (strstr(Core.Params,"-ss_tga"))	
 				{ // hq
 					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
-					ID3DBlob*		saved	= 0;
+#if defined(USE_DX10) || defined(USE_DX11)
+					ID3DBlob* saved = 0;
+#else
+					LPD3DXBUFFER saved = 0;
+#endif
 #ifdef USE_DX11
 					CHK_DX				(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_BMP, &saved, 0));
 #else
@@ -312,7 +325,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				if(hr!=D3D_OK)		goto _end_;
 
 				// save (logical & physical)
-				ID3DBlob*		saved	= 0;
+				#if defined(USE_DX10) || defined(USE_DX11)
+								ID3DBlob* saved = 0;
+				#else
+								LPD3DXBUFFER saved = 0;
+				#endif
 				hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
 				if(hr!=D3D_OK)		goto _end_;
 				
@@ -345,7 +362,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				if(hr!=D3D_OK)		goto _end_;
 
 				// save (logical & physical)
-				ID3DBlob*		saved	= 0;
+				#if defined(USE_DX10) || defined(USE_DX11)
+								ID3DBlob* saved = 0;
+				#else
+								LPD3DXBUFFER saved = 0;
+				#endif
 				hr					= D3DXSaveTextureToFileInMemory (&saved,D3DXIFF_DDS,texture,0);
 				if(hr!=D3D_OK)		goto _end_;
 				
@@ -372,7 +393,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				string64			t_stemp;
 				string_path			buf;
 				xr_sprintf			(buf,sizeof(buf),"ss_%s_%s_(%s).jpg",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
-				ID3DBlob*		saved	= 0;
+				#if defined(USE_DX10) || defined(USE_DX11)
+								ID3DBlob* saved = 0;
+				#else
+								LPD3DXBUFFER saved = 0;
+				#endif
 				CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_JPG,pFB,0,0));
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 				fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());
@@ -380,7 +405,11 @@ void CRender::ScreenshotImpl	(ScreenshotMode mode, LPCSTR name, CMemoryWriter* m
 				_RELEASE			(saved);
 				if (strstr(Core.Params,"-ss_tga"))	{ // hq
 					xr_sprintf			(buf,sizeof(buf),"ssq_%s_%s_(%s).tga",Core.UserName,timestamp(t_stemp),(g_pGameLevel)?g_pGameLevel->name().c_str():"mainmenu");
-					ID3DBlob*		saved	= 0;
+					#if defined(USE_DX10) || defined(USE_DX11)
+										ID3DBlob* saved = 0;
+					#else
+										LPD3DXBUFFER saved = 0;
+					#endif
 					CHK_DX				(D3DXSaveSurfaceToFileInMemory (&saved,D3DXIFF_TGA,pFB,0,0));
 					IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 					fs->w				(saved->GetBufferPointer(),saved->GetBufferSize());

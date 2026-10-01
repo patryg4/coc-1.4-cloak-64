@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "LocatorAPI.h"
 #pragma hdrstop
 
 #pragma warning(disable:4995)
@@ -258,7 +259,7 @@ void CLocatorAPI::Register(LPCSTR name, u32 vfs, u32 crc, u32 ptr, u32 size_real
             desc.size_real = 0;
             desc.size_compressed = 0;
             desc.modif = u32(-1);
-            std::pair<files_it, bool> I = m_files.insert(desc);
+			auto I = m_files.insert(desc);
 
             R_ASSERT(I.second);
         }
