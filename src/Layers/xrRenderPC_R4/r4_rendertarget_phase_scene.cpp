@@ -62,7 +62,11 @@ void	CRenderTarget::phase_scene_prepare	()
       }
 	}
 
-	HW.pContext->ClearRenderTargetView(rt_motion_vectors->pRT, ColorRGBA);
+	{
+		FLOAT ColorRGBA[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		HW.pContext->ClearRenderTargetView(rt_motion_vectors->pRT, ColorRGBA);
+	}
+
 	//	Igor: for volumetric lights
 	m_bHasActiveVolumetric				= false;
 	//	Clear later if try to draw volumetric
