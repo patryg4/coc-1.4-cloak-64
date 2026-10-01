@@ -180,7 +180,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(DXSDK_DIR)Include;$(SolutionDir);$(XRAY_16X_LIBS)3dsmax/ver-6.0/include;$(XRAY_16X_LIBS)3dsmax/ver-6.0/cssdk/include;$(SolutionDir)plugins\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>UTILITY_EXPORTS;WIN32;_WINDOWS;_USRDLL;_MAX_EXPORT;_MAX_PLUGIN;XRCORE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;UTILITY_EXPORTS;WIN32;_WINDOWS;_USRDLL;_MAX_EXPORT;_MAX_PLUGIN;XRCORE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling />
@@ -196,6 +196,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ShowIncludes>false</ShowIncludes>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/Zc:inline- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
