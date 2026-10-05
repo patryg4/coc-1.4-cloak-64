@@ -66,6 +66,8 @@ public:
 	virtual void Copy(IEnvironmentRender &_in);
 
 	virtual void OnFrame(CEnvironment &env);
+	virtual void OnLoad();
+	virtual void OnUnload();
 	virtual void RenderSky(CEnvironment &env);
 	virtual void RenderClouds(CEnvironment &env);
 	virtual void OnDeviceCreate();
